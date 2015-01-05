@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import QuartzCore
 
 class ViewController: UIViewController {
 
@@ -22,6 +23,25 @@ class ViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        let thumbImageNormal = UIImage(named: "SliderThumb-Normal")
+        slider.setThumbImage(thumbImageNormal, forState: .Normal)
+        
+        let thumbImageHighlighted = UIImage(named: "SliderThumb-Highlighted")
+        slider.setThumbImage(thumbImageHighlighted, forState: .Highlighted)
+        
+        let insets = UIEdgeInsets(top: 0, left: 14, bottom: 0, right: 14)
+        
+        let trackLeftImage = UIImage(named: "SliderTrackLeft")
+        let trackLeftResizable = trackLeftImage?.resizableImageWithCapInsets(insets)
+        
+        slider.setMinimumTrackImage(trackLeftResizable, forState: .Normal)
+        
+        let trackRightImage = UIImage(named: "SliderTrackRight")
+        let trackRightResizable = trackRightImage?.resizableImageWithCapInsets(insets)
+        
+        slider.setMaximumTrackImage(trackRightResizable, forState: .Normal)
+        
         startNewRound()
         updateLabels()
     }
@@ -84,10 +104,16 @@ class ViewController: UIViewController {
         round = 0
         startNewRound()
         updateLabels()
+        
+        let transition = CATransition()
+        transition.type = kCATransitionFade
+        transition.duration = 1
+        transition.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseOut)
+        view.layer.addAnimation(transition, forKey: nil)
     }
     
     @IBAction func sliderMoved(slider: UISlider) {
-        println("The value changed and is now at: \(slider.value)")
+//        println("The value changed and is now at: \(slider.value)")
         currentValue = lroundf(slider.value)
     }
 }
