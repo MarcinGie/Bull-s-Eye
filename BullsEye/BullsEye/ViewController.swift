@@ -68,12 +68,20 @@ class ViewController: UIViewController {
         
         let message = "You scored \(points) points"
         let alert = UIAlertController(title: title, message: message, preferredStyle: .Alert)
-        let action = UIAlertAction(title: "OK", style: .Default, handler: nil)
+        let action = UIAlertAction(title: "OK", style: .Default, handler: {
+            action in self.startNewRound()
+            self.updateLabels()
+        })
         
         alert.addAction(action)
         
         presentViewController(alert, animated: true, completion: nil)
+
+    }
     
+    @IBAction func startOverTapped() {
+        score = 0
+        round = 0
         startNewRound()
         updateLabels()
     }
